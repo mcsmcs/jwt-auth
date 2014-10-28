@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang='en'>
+	<meta charset="UTF-8">
+	<title>JWT Authentication!</title>
+</head>
+<body ng-controller="MainCtrl">
+	<h1>Get a random number!</h1>
+
+	<div>
+		<form ng-submit="login(username,password)">
+			<label>Username: <input type='text' ng-model="username" /></label><br/>
+			<label>Password: <input type='password' ng-model="password" /></label><br/>
+			<button type="submit">Login</button>
+		</form>
+	</div>
+
+	<div>
+	<button ng-click="logout()">Logout</button>
+ 	<p>{{ token }}</p>
+	<br/>
+
+
+	<div>
+		<button ng-click="getRandomNumber()">Ding!</button>
+		<pre>{{ randomNumber }}</pre>
+	</div>
+
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
