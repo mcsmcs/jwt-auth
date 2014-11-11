@@ -1,11 +1,11 @@
 'use strict';
 /*jslint unparam: true, node: true */
 
-var express  = require('express');
-var jwt      = require('jsonwebtoken');
-var mongoose = require('mongoose');
-var User     = require('../models/user');
-
+var express            = require('express');
+var jwt                = require('jsonwebtoken');
+var mongoose           = require('mongoose');
+var User               = require('../models/user');
+var EXPIRATION_MINUTES = 1;
 
 module.exports = function(jwtSecret){
 	
@@ -34,12 +34,16 @@ module.exports = function(jwtSecret){
 	router.post('/authenticate', function(req,res){
 
 		User.findOne({'local.email': req.body.email}, function(err,user){
-			if(err) res.send(err);
-			else if(!user) res.send('no such user');
-			else if(!user.validPassword(req.body.password)) res.send('bad password');
+			if(err) res.status(500).send(err);
+			else if(!user) res.status(401).send('no such user');
+			else if(!user.validPassword(req.body.password)) res.status(401).send('bad password');
 			else {
-				var token = jwt.sign({ iss: 'themanhimself', email: user.local.email }, jwtSecret, {expiresInMinutes: 30});
-				res.json({ token: token });
+				var token = jwt.sign({ iss: 'themanhimself', email: user.local.email }, jwtSecret, {expiresInMinutes: EXPIRATION_MINUTES});
+				
+				var expires = new Date();
+				expires.setMinutes(expires.getMinutes() + EXPIRATION_MINUTES);
+
+				res.json({ token: token, email: user.local.email, expires: expires });
 			}
 		});
 
