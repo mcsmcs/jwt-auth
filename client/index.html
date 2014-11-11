@@ -3,30 +3,62 @@
 <head lang='en'>
 	<meta charset="UTF-8">
 	<title>JWT Authentication!</title>
+	<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+	<link rel="stylesheet" href="bower_components/toastr/toastr.css"/>
+	<link rel="stylesheet" href="style.css"/>
 </head>
-<body ng-controller="MainCtrl">
-	<h1>Get a random number!</h1>
+<body ng-controller='ApplicationCtrl'>
+<div class="container-fluid">
+	
+	<div class="navbar navbar-inverse nabar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/">JWT-Auth</a>
+			</div>
 
-	<div>
-		<form ng-submit="login(username,password)">
-			<label>Username: <input type='text' ng-model="username" /></label><br/>
-			<label>Password: <input type='password' ng-model="password" /></label><br/>
-			<button type="submit">Login</button>
-		</form>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a ng-href="/rng">RNG</a></li>
+					<li><a ng-href="/admin">Admin</a></li>
+				</ul>
+
+				
+				<!-- START USER NAV -->
+				<p class="navbar-text navbar-right" ng-controller="userNavigationCtrl">
+					
+					<!-- USER NOT LOGGED IN -->
+					<a ng-href="/login" ng-hide="isLoggedIn">Login</a>
+					
+					<!-- USER LOGGED IN -->
+					<span ng-show="isLoggedIn">
+						<a ng-href="/user">Logged in as: {{ user }}</a> - 
+						<a href="" class="small" ng-click="logout()">[ Logout ]</a>
+					</span>
+				</p>					
+				<!-- END USER NAV -->
+
+			</div>
+		</div>
 	</div>
 
-	<div>
-	<button ng-click="logout()">Logout</button>
- 	<p>{{ token }}</p>
-	<br/>
 
-
-	<div>
-		<button ng-click="getRandomNumber()">Ding!</button>
-		<pre>{{ randomNumber }}</pre>
+	<div class="row">
+		<div class="col-sm-12">
+			<div ng-view></div>
+		</div>
 	</div>
 
-	<script src="bower_components/angular/angular.js"></script>
-	<script src="app.js"></script>
+</div>
+<base href="/">
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/toastr/toastr.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="app.js"></script>
+<script src="myauth.js"></script>
+<script src="services.js"></script>
+<script src="controllers.js"></script>
+
+
 </body>
 </html>
