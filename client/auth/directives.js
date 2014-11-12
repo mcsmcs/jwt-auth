@@ -1,0 +1,1 @@
+angular.module('auth').directive('userNavigation', []);

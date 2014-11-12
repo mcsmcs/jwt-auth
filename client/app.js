@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute','auth']);
 
 app.config(function($routeProvider,$httpProvider,$locationProvider){
 
