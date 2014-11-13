@@ -5,7 +5,7 @@ var express            = require('express');
 var jwt                = require('jsonwebtoken');
 var mongoose           = require('mongoose');
 var User               = require('../models/user');
-var EXPIRATION_MINUTES = 120;
+var EXPIRATION_MINUTES = 60;
 
 module.exports = function(jwtSecret){
 	
@@ -15,12 +15,14 @@ module.exports = function(jwtSecret){
 	router.post('/signup', function(req,res){
 
 		User.findOne({'local.email': req.body.email}, function(err,user){
-			if(err) res.send(401);
-			else if (user) res.send('user already exists');
+			if(err)       { res.status(401).send(); }
+			else if(user) { res.status(409).send(); }
 			else {
-				var newUser = new User();
-				newUser.local.email = req.body.email;
+				
+				var newUser            = new User();
+				newUser.local.email    = req.body.email;
 				newUser.local.password = newUser.generateHash(req.body.password);
+
 				newUser.save(function(err,user){
 					if(err) res.send('failed to create new user:', err);
 					res.json('Success! You have signed up!');
@@ -34,12 +36,21 @@ module.exports = function(jwtSecret){
 	router.post('/authenticate', function(req,res){
 
 		User.findOne({'local.email': req.body.email}, function(err,user){
-			if(err) res.status(500).send(err);
-			else if(!user) res.status(401).send('no such user');
-			else if(!user.validPassword(req.body.password)) res.status(401).send('bad password');
-			else if(!user.active) res.status(403).send('account not activated');
+			if(err) { res.status(500).send(err); }
+			else if(!user || !user.validPassword(req.body.password)){ res.status(401).send(); }
+			else if(!user.active){ res.status(403).send('Account not activated'); }
 			else {
-				var token = jwt.sign({ iss: 'themanhimself', email: user.local.email }, jwtSecret, {expiresInMinutes: EXPIRATION_MINUTES});
+
+				var token = jwt.sign(
+					{ 
+						iss   : 'themanhimself',
+						email : user.local.email,
+						role  : user.role,
+					}, 
+					
+					jwtSecret, 
+					{expiresInMinutes: EXPIRATION_MINUTES}
+				);
 				
 				var expires = new Date();
 				expires.setMinutes(expires.getMinutes() + EXPIRATION_MINUTES);
@@ -57,4 +68,4 @@ module.exports = function(jwtSecret){
 	});
 
 	return router;
-}
+};

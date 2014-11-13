@@ -11,10 +11,12 @@ function ensureAdminUser(){
 		else if(admin) console.log('Admin user already exists');
 		else if(!admin){
 			
-			var newAdmin = new User();
-			newAdmin.local.email = 'admin';
+			var newAdmin            = new User();
+			newAdmin.active         = true;
+			newAdmin.role           = 'admin';
+			newAdmin.local.email    = 'admin';
 			newAdmin.local.password = newAdmin.generateHash('admin');
-			newAdmin.active = true;
+
 
 			newAdmin.save(function(err,admin){
 				if(err) console.log('Error saving admin user', err);

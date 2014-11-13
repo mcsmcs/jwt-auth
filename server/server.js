@@ -27,14 +27,20 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
+
 // everything required jwt auth except for signup/auth endpoints
 app.use(expressJWT({secret: cfg.jwtSecret}).unless({path: ['/auth/signup', '/auth/authenticate']}));
 app.use(function(err,req,res,next){
+	if(err){ console.log(err); }
 	if(err.message === 'jwt expired') res.status(401).send('expired');
+	next();
 });
+
 
 // load routes ============================================
 app.use('/auth', require('./routes/auth')(cfg.jwtSecret));	// authentication routes
+app.use('/users', require('./routes/users'));				// user routes
+
 app.use('/protected', require('./routes/protected'));		// example protected routes
 app.get('/random', function(req,res){ res.json({ random: Math.floor(Math.random() * 100), user: req.user }) });
 
