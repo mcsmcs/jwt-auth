@@ -3,6 +3,7 @@ angular.module('auth').controller('userCtrl', function($scope,UserFactory){
 	$scope.token = UserFactory.getToken();
 });
 
+
 angular.module('auth').controller('auth.loginCtrl', function($scope,AuthFactory,$location,$rootScope,UserFactory,NotifierFactory){
 
 	$scope.login = function(credentials){ 

@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute','auth']);
+var app = angular.module('app', ['ngRoute','ngResource','auth']);
 
 app.config(function($routeProvider,$httpProvider,$locationProvider){
 
@@ -26,6 +26,14 @@ app.config(function($routeProvider,$httpProvider,$locationProvider){
 				auth:  authorize(['user','admin']),
 			}
 		})
+
+		.when('/users', {
+			templateUrl: 'views/admin.html',
+			controller: 'usersCtrl',
+			resolve: {
+				auth: authorize(['user','admin']),
+			}
+		}) 
 
 		.when('/admin', {
 			templateUrl: 'views/admin.html',

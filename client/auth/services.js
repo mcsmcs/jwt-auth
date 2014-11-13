@@ -76,10 +76,16 @@ angular.module('auth').factory('AuthInterceptor', function($rootScope,$q,$locati
 	};
 
 	interceptor.responseError = function(response){
-		UserFactory.unsetUserInfo();
 		$q.reject(response);
-		$rootScope.redirectAfterLogin = $location.path();
-		$location.path('/login');
+
+		if (response.status === 401){
+			UserFactory.unsetUserInfo();
+			$rootScope.redirectAfterLogin = $location.path();
+			$location.path('/login');
+		}
+		else if(response.status === 403){
+			// NotifierFactory.error(response.data);
+		}
 	};
 
 	return interceptor;
@@ -128,6 +134,7 @@ angular.module('auth').factory('UserFactory', function($window){
 
 	// Set user state after authentication with API
 	self.setUserInfo = function(userAuthData){
+		console.log(userAuthData);
 		user    = userAuthData.email;
 		role    = userAuthData.role || 'user';
 		token   = userAuthData.token;

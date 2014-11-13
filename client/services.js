@@ -8,3 +8,8 @@ app.factory('NotifierFactory', function(Toastr){
 	
 	return notifier;
 });
+
+
+app.factory('UsersFactory', function($resource){
+	return $resource('http://localhost:3000/users/:email');
+});

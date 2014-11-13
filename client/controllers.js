@@ -64,3 +64,11 @@ app.controller('userNavigationCtrl', function($scope,$location,AuthFactory,UserF
 		$location.path('/');
 	};
 });
+
+
+app.controller('usersCtrl', function($scope,UsersFactory){
+
+	UsersFactory.query(function(res){ get = res; });
+	UsersFactory.get({email:'m'}, function(res){ get1 = res; });
+	UsersFactory.delete({email:'a'}, function(res){ console.log(res); });
+});
