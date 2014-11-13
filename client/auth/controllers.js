@@ -3,7 +3,7 @@ angular.module('auth').controller('userCtrl', function($scope,UserFactory){
 	$scope.token = UserFactory.getToken();
 });
 
-angular.module('auth').controller('loginCtrl', function($scope,AuthFactory,$location,$rootScope,UserFactory,NotifierFactory){
+angular.module('auth').controller('auth.loginCtrl', function($scope,AuthFactory,$location,$rootScope,UserFactory,NotifierFactory){
 
 	$scope.login = function(credentials){ 
 		AuthFactory.login(credentials).then(
@@ -26,7 +26,7 @@ angular.module('auth').controller('loginCtrl', function($scope,AuthFactory,$loca
 });
 
 
-angular.module('auth').controller('userNavigationCtrl', function($scope,$location,AuthFactory,UserFactory){
+angular.module('auth').controller('auth.userNavigationCtrl', function($scope,$location,AuthFactory,UserFactory){
 
 	$scope.logout = function(){	
 		AuthFactory.logout();

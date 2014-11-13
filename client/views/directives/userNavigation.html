@@ -1,0 +1,10 @@
+<p>
+	<!-- USER NOT LOGGED IN -->
+	<a ng-href="/login" ng-hide="isLoggedIn">Login</a>
+
+	<!-- USER LOGGED IN -->
+	<span ng-show="isLoggedIn">
+		<a ng-href="/user">Logged in as: {{ user }}</a> - 
+		<a href="" class="small" ng-click="logout()">[ Logout ]</a>
+	</span>
+</p>

@@ -23,24 +23,12 @@
 				</ul>
 
 				
-				<!-- START USER NAV -->
-				<p class="navbar-text navbar-right" ng-controller="userNavigationCtrl">
-					
-					<!-- USER NOT LOGGED IN -->
-					<a ng-href="/login" ng-hide="isLoggedIn">Login</a>
-					
-					<!-- USER LOGGED IN -->
-					<span ng-show="isLoggedIn">
-						<a ng-href="/user">Logged in as: {{ user }}</a> - 
-						<a href="" class="small" ng-click="logout()">[ Logout ]</a>
-					</span>
-				</p>					
-				<!-- END USER NAV -->
+				<user-navigation class="navbar-text navbar-right"/>
+				
 
 			</div>
 		</div>
 	</div>
-
 
 	<div class="row">
 		<div class="col-sm-12">
@@ -63,6 +51,7 @@
 <script src="auth/module.js"></script>
 <script src="auth/services.js"></script>
 <script src="auth/controllers.js"></script>
+<script src="auth/directives.js"></script>
 
 
 
