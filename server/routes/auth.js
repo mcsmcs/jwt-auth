@@ -5,7 +5,7 @@ var express            = require('express');
 var jwt                = require('jsonwebtoken');
 var mongoose           = require('mongoose');
 var User               = require('../models/user');
-var EXPIRATION_MINUTES = 1;
+var EXPIRATION_MINUTES = 120;
 
 module.exports = function(jwtSecret){
 	
@@ -37,6 +37,7 @@ module.exports = function(jwtSecret){
 			if(err) res.status(500).send(err);
 			else if(!user) res.status(401).send('no such user');
 			else if(!user.validPassword(req.body.password)) res.status(401).send('bad password');
+			else if(!user.active) res.status(403).send('account not activated');
 			else {
 				var token = jwt.sign({ iss: 'themanhimself', email: user.local.email }, jwtSecret, {expiresInMinutes: EXPIRATION_MINUTES});
 				
