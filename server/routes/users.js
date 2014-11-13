@@ -56,7 +56,7 @@ router.get('/', function(req,res){
 				return user;
 			});
 
-			res.send(users);
+			res.json(users);
 		}
 	})
 });
@@ -74,7 +74,7 @@ router.post('/', function(req,res){
 	newUser.local.password = newUser.generateHash(req.body.password);
 
 	newUser.save(function(err,user){
-		if(err) res.send('failed to create new user:', err);
+		if(err) res.status(500).send('failed to create new user:', err);
 		res.json('Success! You have signed up!');
 	});
 		
@@ -92,7 +92,7 @@ router.get('/:email', function(req,res){
 	delete user._id;
 	delete user.__v;
 
-	res.send(user);
+	res.json(user);
 });
 
 

@@ -55,7 +55,7 @@ module.exports = function(jwtSecret){
 				var expires = new Date();
 				expires.setMinutes(expires.getMinutes() + EXPIRATION_MINUTES);
 
-				res.json({ token: token, email: user.local.email, expires: expires });
+				res.json({ token: token, email: user.local.email, role: user.role, expires: expires });
 			}
 		});
 
