@@ -21,8 +21,8 @@ router.param('email', Authorize.ownerOrRoles(['admin']));
 router.param('email', function(req,res,next){
 		
 	User.findOne({'local.email': req.params.email}, function(err,user){
-		if(err)        { req.status(500).send(err); }
-		else if(!user) { req.status(404).send(); }
+		if(err)        { res.status(500).send(err); }
+		else if(!user) { res.status(404).send(); }
 		else {
 			req.requestedUser = user;
 			next();
