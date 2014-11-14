@@ -23,15 +23,16 @@ app.config(function($routeProvider,$httpProvider,$locationProvider){
 			templateUrl: 'views/user.html',
 			controller: 'userCtrl',
 			resolve: {
-				auth:  authorize(['user','admin']),
+				auth: authorize(['user','admin']),
 			}
 		})
 
 		.when('/users', {
-			templateUrl: 'views/admin.html',
+			templateUrl: 'views/userList.html',
 			controller: 'usersCtrl',
 			resolve: {
-				auth: authorize(['user','admin']),
+				auth  : authorize(['admin']),
+				users : app.controller('usersCtrl').loadUsers
 			}
 		}) 
 
@@ -80,6 +81,7 @@ app.run(function($rootScope,$location,AuthFactory,UserFactory,NotifierFactory){
 				$location.path('/');	
 			}
 		}
+
 
 		NotifierFactory.error(rejection.message);
 	});

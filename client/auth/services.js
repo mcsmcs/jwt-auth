@@ -76,7 +76,6 @@ angular.module('auth').factory('AuthInterceptor', function($rootScope,$q,$locati
 	};
 
 	interceptor.responseError = function(response){
-		$q.reject(response);
 
 		if (response.status === 401){
 			UserFactory.unsetUserInfo();
@@ -84,8 +83,11 @@ angular.module('auth').factory('AuthInterceptor', function($rootScope,$q,$locati
 			$location.path('/login');
 		}
 		else if(response.status === 403){
-			// NotifierFactory.error(response.data);
+			response.error = 'not-authorized';
+			response.message = 'Insufficient permissions for that resource.';
 		}
+
+		return $q.reject(response);
 	};
 
 	return interceptor;
